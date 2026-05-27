@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수원시특례지원금 중소기업 무상자금 신청</title>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="수원시특례지원금 중소기업 무상자금 신청">
+<meta property="og:description" content="최대 7,000만 무상지원 | 금리 2.9% 고정 | 선착순 15명 무료 세미나 | 지금 바로 신청하세요!">
+<meta property="og:image" content="https://rapha8884.github.io/suwon-fund-apply/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="description" content="최대 7,000만 무상지원 | 금리 2.9% 고정 | 선착순 15명 무료 세미나 | 지금 바로 신청하세요!">
+
+<!-- 카카오 SDK -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+  integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
+  crossorigin="anonymous"></script>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+    background: #0D1A3A;
+    color: #ffffff;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0D1A3A 0%, #162040 100%);
+    border-bottom: 2px solid #C9A227;
+    padding: 0;
+  }
+  .header-top {
+    background: #C9A227;
+    text-align: center;
+    padding: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0D1A3A;
+    letter-spacing: 1px;
+  }
+  .header-main {
+    padding: 24px 20px 20px;
+    text-align: center;
+  }
+  .header-year { font-size: 13px; color: #C9A227; font-weight: 700; margin-bottom: 8px; }
+  .header-title { font-size: 26px; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: 4px; }
+  .header-title span { color: #C9A227; }
+  .header-subtitle { font-size: 13px; color: #8A9BBF; margin-bottom: 16px; }
+  .header-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .badge { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .badge-gold { background: #C9A227; color: #0D1A3A; }
+  .badge-outline { border: 1.5px solid #C9A227; color: #C9A227; }
+  .badge-red { background: #7A1515; color: #FFB3B3; font-size: 12px; }
+
+  /* Progress */
+  .progress-wrap {
+    background: #0D1A3A;
+    padding: 20px 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #1E2E55;
+  }
+  .progress-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 0; }
+  .step-item {
+    display: flex; flex-direction: column; align-items: center;
+    flex: 1; max-width: 100px; position: relative;
+  }
+  .step-item:not(:last-child)::after {
+    content: ''; position: absolute; top: 15px; left: 60%;
+    width: 80%; height: 2px; background: #1E2E55; z-index: 0;
+  }
+  .step-item.done:not(:last-child)::after { background: #C9A227; }
+  .step-circle {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #1E2E55; border: 2px solid #1E2E55;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #8A9BBF; z-index: 1; transition: all 0.3s;
+  }
+  .step-item.active .step-circle { background: #C9A227; border-color: #C9A227; color: #0D1A3A; }
+  .step-item.done .step-circle { background: #0F6E56; border-color: #0F6E56; color: #fff; font-size: 16px; }
+  .step-label { font-size: 10px; color: #8A9BBF; margin-top: 5px; text-align: center; white-space: nowrap; }
+  .step-item.active .step-label { color: #C9A227; font-weight: 700; }
+  .step-item.done .step-label { color: #1D9E75; }
+
+  /* Main content */
+  .content { padding: 20px; max-width: 600px; margin: 0 auto; }
+
+  .section-card {
+    background: #131F3F; border: 1px solid #1E2E55;
+    border-radius: 16px; padding: 20px; margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 15px; font-weight: 700; color: #C9A227;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .icon-gold { background: #C9A22720; color: #C9A227; }
+  .icon-teal { background: #0C404020; color: #1D9E75; }
+  .icon-purple { background: #2E206020; color: #9B8FE8; }
+
+  /* Form elements */
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 13px; color: #8A9BBF; margin-bottom: 6px; font-weight: 500; }
+  .form-label .required { color: #FF7777; margin-left: 3px; }
+  .form-input, .form-select, .form-textarea {
+    width: 100%; background: #0D1A3A; border: 1.5px solid #1E2E55;
+    border-radius: 10px; color: #fff; font-size: 15px; padding: 11px 14px;
+    outline: none; transition: border-color 0.2s; font-family: inherit;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: #C9A227; }
+  .form-input::placeholder { color: #3A4A6A; }
+  .form-select option { background: #0D1A3A; }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* Radio/Checkbox groups */
+  .radio-group, .check-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .radio-btn {
+    flex: 1; min-width: 100px; background: #0D1A3A; border: 1.5px solid #1E2E55;
+    border-radius: 10px; padding: 10px 12px; cursor: pointer;
+    text-align: center; font-size: 13px; color: #8A9BBF; transition: all 0.2s; user-select: none;
+  }
+  .radio-btn:hover { border-color: #C9A22760; }
+  .radio-btn.selected { border-color: #C9A227; color: #C9A227; background: #C9A22715; font-weight: 700; }
+  .check-item {
+    display: flex; align-items: center; gap: 8px;
+    background: #0D1A3A; border: 1.5px solid #1E2E55;
+    border-radius: 10px; padding: 10px 14px;
+    cursor: pointer; font-size: 13px; color: #8A9BBF; transition: all 0.2s; user-select: none;
+  }
+  .check-item.selected { border-color: #1D9E75; color: #1D9E75; background: #1D9E7515; }
+  .check-box {
+    width: 18px; height: 18px; border-radius: 5px; border: 2px solid #1E2E55;
+    background: transparent; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .check-item.selected .check-box { background: #1D9E75; border-color: #1D9E75; }
+  .check-mark { color: #fff; font-size: 11px; display: none; }
+  .check-item.selected .check-mark { display: block; }
+
+  /* Info box */
+  .info-box {
+    background: #C9A22710; border: 1px solid #C9A22730;
+    border-radius: 10px; padding: 12px 14px;
+    font-size: 12px; color: #C9A227; line-height: 1.6; margin-top: 6px;
+  }
+  .coupon-box {
+    background: #0C404020; border: 1.5px solid #0C4040;
+    border-radius: 12px; padding: 14px; margin-bottom: 16px;
+  }
+  .coupon-title { font-size: 14px; font-weight: 700; color: #1D9E75; margin-bottom: 6px; }
+  .coupon-desc { font-size: 12px; color: #8A9BBF; line-height: 1.6; }
+
+  /* Terms */
+  .terms-box {
+    background: #0D1A3A; border: 1px solid #1E2E55;
+    border-radius: 10px; padding: 12px; font-size: 11px; color: #8A9BBF;
+    line-height: 1.7; max-height: 120px; overflow-y: auto; margin-bottom: 10px;
+  }
+  .agree-row {
+    display: flex; align-items: center; gap: 10px; padding: 10px;
+    cursor: pointer; border-radius: 8px; transition: background 0.2s;
+  }
+  .agree-row:hover { background: #1E2E5530; }
+  .agree-check {
+    width: 22px; height: 22px; border-radius: 6px; border: 2px solid #1E2E55;
+    background: transparent; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .agree-check.checked { background: #C9A227; border-color: #C9A227; }
+  .agree-label { font-size: 13px; color: #B8C4D8; }
+  .agree-label span { color: #C9A227; }
+
+  /* Navigation buttons */
+  .nav-buttons { display: flex; gap: 12px; margin-top: 8px; padding-bottom: 30px; }
+  .btn-prev {
+    flex: 1; padding: 14px; background: transparent; border: 1.5px solid #1E2E55;
+    border-radius: 12px; color: #8A9BBF; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+  }
+  .btn-prev:hover { border-color: #8A9BBF; color: #fff; }
+  .btn-next {
+    flex: 2; padding: 14px; background: #C9A227; border: none; border-radius: 12px;
+    color: #0D1A3A; font-size: 15px; font-weight: 900; cursor: pointer;
+    transition: all 0.2s; font-family: inherit; letter-spacing: 0.5px;
+  }
+  .btn-next:hover { background: #E8C547; }
+  .btn-next:active { transform: scale(0.98); }
+
+  /* Limit warning */
+  .limit-banner {
+    background: #3A0A0A; border: 1px solid #7A1515; border-radius: 10px;
+    padding: 12px 14px; font-size: 13px; color: #FFB3B3;
+    display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-weight: 600;
+  }
+
+  /* Success screen */
+  .success-screen { text-align: center; padding: 40px 20px; }
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: #0C4040; border: 3px solid #1D9E75;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin: 0 auto 20px;
+  }
+  .success-title { font-size: 22px; font-weight: 900; color: #1D9E75; margin-bottom: 8px; }
+  .success-sub { font-size: 14px; color: #8A9BBF; line-height: 1.7; margin-bottom: 24px; }
+  .receipt-card {
+    background: #131F3F; border: 1px solid #1E2E55;
+    border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 20px;
+  }
+  .receipt-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid #1E2E5560; font-size: 13px;
+  }
+  .receipt-row:last-child { border-bottom: none; }
+  .receipt-label { color: #8A9BBF; }
+  .receipt-value { color: #fff; font-weight: 600; }
+  .coupon-issued {
+    background: #0C4040; border: 2px dashed #1D9E75;
+    border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 20px;
+  }
+  .coupon-code { font-size: 22px; font-weight: 900; color: #1D9E75; letter-spacing: 3px; margin: 8px 0; }
+  .coupon-note { font-size: 12px; color: #8A9BBF; }
+
+  /* Page display */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .slot-counter {
+    background: #1A0A00; border: 1px solid #C9A22740; border-radius: 8px;
+    padding: 8px 14px; font-size: 12px; color: #C9A227; text-align: center; margin-bottom: 14px;
+  }
+  .slot-num { font-size: 18px; font-weight: 900; color: #E8C547; }
+
+  /* ===== 카카오 공유 버튼 ===== */
+  .kakao-share-section {
+    background: #131F3F; border: 1px solid #1E2E55;
+    border-radius: 16px; padding: 20px; margin-bottom: 16px; text-align: center;
+  }
+  .kakao-share-section p {
+    font-size: 13px; color: #8A9BBF; margin-bottom: 14px; line-height: 1.6;
+  }
+  .btn-kakao {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    background: #FEE500; color: #191919;
+    border: none; border-radius: 12px;
+    padding: 14px 28px; font-size: 16px; font-weight: 900;
+    cursor: pointer; width: 100%; font-family: inherit;
+    transition: all 0.2s; letter-spacing: 0.3px;
+  }
+  .btn-kakao:hover { background: #f5dc00; transform: translateY(-1px); box-shadow: 0 4px 16px #FEE50050; }
+  .btn-kakao:active { transform: scale(0.98); }
+  .btn-kakao svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+  /* 제출 로딩 */
+  .submit-loading {
+    display: none; align-items: center; justify-content: center;
+    gap: 10px; padding: 14px; color: #C9A227; font-weight: 700; font-size: 15px;
+  }
+  .spinner {
+    width: 20px; height: 20px; border: 3px solid #C9A22730;
+    border-top-color: #C9A227; border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* URL 공유 박스 */
+  .url-share-box {
+    background: #0D1A3A; border: 1.5px solid #1E2E55;
+    border-radius: 10px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px; margin-top: 12px;
+  }
+  .url-share-box span { font-size: 12px; color: #8A9BBF; flex: 1; word-break: break-all; }
+  .btn-copy {
+    background: #1E2E55; border: none; border-radius: 8px;
+    color: #C9A227; font-size: 12px; font-weight: 700;
+    padding: 6px 12px; cursor: pointer; white-space: nowrap; font-family: inherit;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .btn-copy:hover { background: #C9A22720; }
+  .btn-copy.copied { color: #1D9E75; }
+
+  /* 제출 버튼 상태 */
+  .btn-submit-wrap { position: relative; flex: 2; }
+  .btn-submit-wrap .btn-next { width: 100%; }
+
+  /* 관리자 안내 */
+  .admin-info-box {
+    background: #0D1A3A; border: 1px solid #1D9E7540;
+    border-radius: 10px; padding: 14px; margin-top: 16px; text-align: left;
+  }
+  .admin-info-box .admin-title {
+    font-size: 13px; font-weight: 700; color: #1D9E75; margin-bottom: 8px;
+  }
+  .admin-info-box p { font-size: 12px; color: #8A9BBF; line-height: 1.7; }
+  .admin-info-box a { color: #C9A227; text-decoration: none; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-top">🎯 2026 수원시특례지원금 — 선착순 15명 마감</div>
+  <div class="header-main">
+    <div class="header-year">2026</div>
+    <div class="header-title">중소기업 <span>무상자금</span> 신청</div>
+    <div class="header-subtitle">중소기업 대표님을 위한 자금조달 완전 로드맵</div>
+    <div class="header-badges">
+      <span class="badge badge-gold">최대 7,000만 무상지원</span>
+      <span class="badge badge-outline">금리 2.9% 고정</span>
+      <span class="badge badge-outline">무료 세미나</span>
+    </div>
+  </div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="step-item active" id="step1-indicator">
+      <div class="step-circle">1</div>
+      <div class="step-label">기업정보</div>
+    </div>
+    <div class="step-item" id="step2-indicator">
+      <div class="step-circle">2</div>
+      <div class="step-label">대표자정보</div>
+    </div>
+    <div class="step-item" id="step3-indicator">
+      <div class="step-circle">3</div>
+      <div class="step-label">자금수요</div>
+    </div>
+    <div class="step-item" id="step4-indicator">
+      <div class="step-circle">4</div>
+      <div class="step-label">약관/제출</div>
+    </div>
+  </div>
+  <div style="height:16px;"></div>
+</div>
+
+<!-- Main -->
+<div class="content">
+
+  <!-- Page 1: 기업 정보 -->
+  <div class="page active" id="page1">
+    <div class="limit-banner">
+      ⚠️ 잔여 신청 가능 인원 <span class="slot-num" style="margin:0 6px;">3</span>명 — 조기 마감될 수 있습니다
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-gold">🏢</div>기업 기본 정보</div>
+      <div class="form-group">
+        <label class="form-label">기업명 (상호) <span class="required">*</span></label>
+        <input type="text" class="form-input" id="companyName" placeholder="예) 주식회사 수원테크" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">사업자등록번호 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="bizNum" placeholder="000-00-00000" maxlength="12" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">업종 <span class="required">*</span></label>
+          <select class="form-select" id="industry">
+            <option value="">선택</option>
+            <option>제조업</option>
+            <option>IT/소프트웨어</option>
+            <option>도소매업</option>
+            <option>음식/숙박업</option>
+            <option>건설업</option>
+            <option>서비스업</option>
+            <option>기타</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">업력 <span class="required">*</span></label>
+          <select class="form-select" id="bizAge">
+            <option value="">선택</option>
+            <option>창업 예정 (예비창업자)</option>
+            <option>1년 미만</option>
+            <option>1~3년</option>
+            <option>3~5년</option>
+            <option>5~10년</option>
+            <option>10년 이상</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">기업 소재지</label>
+        <input type="text" class="form-input" id="address" placeholder="예) 경기도 수원시 팔달구 ..." />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">연매출 (만원)</label>
+          <input type="text" class="form-input" id="revenue" placeholder="예) 50000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">직원 수</label>
+          <input type="text" class="form-input" id="empCount" placeholder="예) 5명" />
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-next" style="flex:1" onclick="goPage(2)">다음 단계 →</button>
+    </div>
+  </div>
+
+  <!-- Page 2: 대표자 정보 -->
+  <div class="page" id="page2">
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-gold">👤</div>대표자 정보</div>
+      <div class="form-group">
+        <label class="form-label">대표자 성명 <span class="required">*</span></label>
+        <input type="text" class="form-input" id="ceoName" placeholder="홍길동" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">연락처 <span class="required">*</span></label>
+        <input type="tel" class="form-input" id="phone" placeholder="010-0000-0000" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">이메일</label>
+        <input type="email" class="form-input" id="email" placeholder="example@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">신청 경로</label>
+        <div class="radio-group">
+          <div class="radio-btn" onclick="selectRadio(this,'channel')">지인 소개</div>
+          <div class="radio-btn" onclick="selectRadio(this,'channel')">SNS/온라인</div>
+          <div class="radio-btn" onclick="selectRadio(this,'channel')">포스터/전단</div>
+          <div class="radio-btn" onclick="selectRadio(this,'channel')">기타</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-teal">🎁</div>나이스평가정보 자가진단 쿠폰</div>
+      <div class="coupon-box">
+        <div class="coupon-title">✅ 참가 신청자 전원 쿠폰 지급</div>
+        <div class="coupon-desc">
+          신청 완료 후 <strong style="color:#1D9E75;">세미나 현장에서</strong> 나이스평가정보 자가진단 쿠폰을 발급해 드립니다.<br>
+          · 내 신용등급 및 금융정보 무료 확인<br>
+          · 대출 가능 여부 사전 자가 진단<br>
+          · 현장 담당자에게 신청서 확인 후 즉시 수령
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPage(1)">← 이전</button>
+      <button class="btn-next" onclick="goPage(3)">다음 단계 →</button>
+    </div>
+  </div>
+
+  <!-- Page 3: 자금 수요 -->
+  <div class="page" id="page3">
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-purple">💰</div>자금 수요 현황</div>
+      <div class="form-group">
+        <label class="form-label">필요한 자금 종류 <span class="required">*</span> (복수 선택)</label>
+        <div class="check-group" id="fundType">
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>정부 무상지원금
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>운전자금 대환 (2.9%)
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>시설자금 대환
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>브릿지 대출 (45억)
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>부채비율 개선 컨설팅
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>R&amp;D 자금
+          </div>
+          <div class="check-item" onclick="toggleCheck(this)">
+            <div class="check-box"><span class="check-mark">✓</span></div>TCB 자금
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">필요 자금 규모</label>
+        <select class="form-select" id="fundAmount">
+          <option value="">선택</option>
+          <option>3,000만원 이하</option>
+          <option>3,000만 ~ 5,000만원</option>
+          <option>5,000만 ~ 1억원</option>
+          <option>1억 ~ 5억원</option>
+          <option>5억 ~ 15억원</option>
+          <option>15억 이상</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">현재 대출 현황</label>
+        <div class="radio-group">
+          <div class="radio-btn" onclick="selectRadio(this,'loan')">없음</div>
+          <div class="radio-btn" onclick="selectRadio(this,'loan')">1금융권</div>
+          <div class="radio-btn" onclick="selectRadio(this,'loan')">2금융권</div>
+          <div class="radio-btn" onclick="selectRadio(this,'loan')">복수 금융</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">자금 필요 시기</label>
+        <div class="radio-group">
+          <div class="radio-btn" onclick="selectRadio(this,'timing')">즉시 (1개월 내)</div>
+          <div class="radio-btn" onclick="selectRadio(this,'timing')">1~3개월</div>
+          <div class="radio-btn" onclick="selectRadio(this,'timing')">3~6개월</div>
+          <div class="radio-btn" onclick="selectRadio(this,'timing')">6개월 이후</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">추가 문의 사항</label>
+        <textarea class="form-textarea" id="memo" placeholder="자금 조달과 관련한 현재 상황이나 문의 사항을 자유롭게 작성해 주세요."></textarea>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPage(2)">← 이전</button>
+      <button class="btn-next" onclick="goPage(4)">다음 단계 →</button>
+    </div>
+  </div>
+
+  <!-- Page 4: 약관 및 제출 -->
+  <div class="page" id="page4">
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-gold">📋</div>개인정보 수집 및 이용 동의</div>
+
+      <div class="terms-box">
+        <strong>[필수] 개인정보 수집 및 이용에 관한 동의</strong><br><br>
+        수집 항목: 기업명, 사업자등록번호, 대표자 성명, 연락처, 이메일 주소, 자금 관련 정보<br><br>
+        수집 목적: 수원시특례지원금 세미나 신청 접수, 자격 검토 및 안내, 나이스평가정보 쿠폰 발급<br><br>
+        보유 기간: 세미나 종료 후 1년 (단, 법령에 따라 별도 보존이 필요한 경우 해당 기간)<br><br>
+        귀하는 동의를 거부할 권리가 있으나, 거부 시 세미나 신청 및 쿠폰 발급 서비스 이용이 제한될 수 있습니다.
+      </div>
+      <div class="agree-row" onclick="toggleAgree('agree1')">
+        <div class="agree-check" id="agree1">✓</div>
+        <div class="agree-label"><span>[필수]</span> 개인정보 수집 및 이용에 동의합니다</div>
+      </div>
+
+      <div style="margin-top:12px;" class="terms-box">
+        <strong>[필수] 마케팅 정보 수신 동의</strong><br><br>
+        수원시특례지원금 관련 세미나, 자금지원 프로그램 안내, 나이스평가정보 자가진단 서비스 관련 정보를 문자(SMS) 또는 이메일로 발송할 수 있습니다.
+      </div>
+      <div class="agree-row" onclick="toggleAgree('agree2')">
+        <div class="agree-check" id="agree2">✓</div>
+        <div class="agree-label"><span>[필수]</span> 마케팅 정보 수신에 동의합니다</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-teal">📅</div>세미나 일정 확인</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; text-align:center;">
+        <div style="background:#0D1A3A; border:1px solid #1E2E55; border-radius:10px; padding:12px;">
+          <div style="font-size:11px; color:#8A9BBF; margin-bottom:4px;">일시</div>
+          <div style="font-size:14px; font-weight:700;">2026. 6. 9 (화) 오후 2시</div>
+        </div>
+        <div style="background:#0D1A3A; border:1px solid #1E2E55; border-radius:10px; padding:12px;">
+          <div style="font-size:11px; color:#8A9BBF; margin-bottom:4px;">장소</div>
+          <div style="font-size:14px; font-weight:700;">테크트리영통 B2회의실</div>
+        </div>
+        <div style="background:#0D1A3A; border:1px solid #1D9E75; border-radius:10px; padding:12px;">
+          <div style="font-size:11px; color:#8A9BBF; margin-bottom:4px;">참가비</div>
+          <div style="font-size:14px; font-weight:700; color:#1D9E75;">무 료</div>
+        </div>
+      </div>
+      <div class="info-box" style="margin-top:12px;">
+        ⚠ 세미나 신청 인원은 15명으로 제한됩니다. 신청 완료 순서대로 확정되며 마감 후 추가 신청은 불가합니다.
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title"><div class="icon icon-gold">🏛️</div>주최 · 협력 기관</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:11px; color:#8A9BBF; margin-bottom:6px; font-weight:600; letter-spacing:0.5px;">주최기관</div>
+        <div style="background:#0D1A3A; border:1.5px solid #C9A22750; border-radius:10px; padding:12px 14px; display:flex; align-items:center; gap:10px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:#C9A22720;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🏢</div>
+          <div style="font-size:14px; font-weight:700; color:#C9A227;">한국기업진단평가원</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; color:#8A9BBF; margin-bottom:6px; font-weight:600; letter-spacing:0.5px;">MOU 업체</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="background:#0D1A3A; border:1px solid #1E2E55; border-radius:10px; padding:11px 14px; display:flex; align-items:center; gap:10px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#1D9E7520;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🤝</div>
+            <div style="font-size:13px; color:#B8C4D8; font-weight:600;">사단법인 수원산업단지관리공단</div>
+          </div>
+          <div style="background:#0D1A3A; border:1px solid #1E2E55; border-radius:10px; padding:11px 14px; display:flex; align-items:center; gap:10px;">
+            <div style="width:28px;height:28px;border-radius:50%;background:#1D9E7520;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;">🤝</div>
+            <div style="font-size:13px; color:#B8C4D8; font-weight:600;">경기 중소기업경영 지원팀</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn-prev" onclick="goPage(3)">← 이전</button>
+      <div class="btn-submit-wrap">
+        <button class="btn-next" id="submitBtn" onclick="submitForm()">✅ 신청서 제출하기</button>
+        <div class="submit-loading" id="submitLoading">
+          <div class="spinner"></div> 제출 중...
+        </div>
+      </div>
+    </div>
+  </div><!-- /page4 -->
+
+  <!-- Page 5: 완료 -->
+  <div class="page" id="page5">
+    <div class="success-screen">
+      <div class="success-icon">✅</div>
+      <div class="success-title">신청이 완료되었습니다!</div>
+      <div class="success-sub">
+        수원시특례지원금 중소기업 무상자금 세미나<br>신청이 정상적으로 접수되었습니다.<br>
+        담당자가 확인 후 <strong>24시간 내 연락</strong>드립니다.
+      </div>
+
+      <div class="coupon-issued">
+        <div style="font-size:13px; color:#8A9BBF; margin-bottom:6px;">🎁 나이스평가정보 자가진단 쿠폰</div>
+        <div class="coupon-code" id="couponCode"></div>
+        <div style="font-size:15px; font-weight:700; color:#1D9E75; margin:8px 0;">세미나 현장에서 수령</div>
+        <div class="coupon-note">세미나 당일 현장 담당자에게<br>신청 확인 후 쿠폰을 즉시 발급해 드립니다</div>
+      </div>
+
+      <div class="receipt-card" id="receiptCard">
+        <div style="font-size:13px; font-weight:700; color:#C9A227; margin-bottom:12px;">📄 접수 확인서</div>
+        <div class="receipt-row">
+          <span class="receipt-label">접수번호</span>
+          <span class="receipt-value" id="receiptNum">#2026-0000</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">기업명</span>
+          <span class="receipt-value" id="r-company">-</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">대표자</span>
+          <span class="receipt-value" id="r-ceo">-</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">연락처</span>
+          <span class="receipt-value" id="r-phone">-</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">접수 일시</span>
+          <span class="receipt-value" id="r-date">-</span>
+        </div>
+        <div class="receipt-row">
+          <span class="receipt-label">세미나 일정</span>
+          <span class="receipt-value">2026. 6. 9 (화) 오후 2시 | 테크트리영통 B2회의실</span>
+        </div>
+      </div>
+
+      <!-- ===== 카카오톡 공유 섹션 ===== -->
+      <div class="kakao-share-section">
+        <div class="section-title" style="justify-content:center; margin-bottom:8px;">
+          <div class="icon icon-gold">💬</div>지인에게 공유하기
+        </div>
+        <p>세미나 정보를 주변 대표님들과<br>카카오톡으로 공유해보세요!</p>
+        <button class="btn-kakao" onclick="shareKakao()">
+          <!-- 카카오 말풍선 아이콘 -->
+          <svg viewBox="0 0 24 24" fill="#191919" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C6.477 3 2 6.477 2 10.9c0 2.796 1.606 5.26 4.033 6.715L5.09 21l4.545-2.273C10.078 18.872 11.03 19 12 19c5.523 0 10-3.477 10-7.9S17.523 3 12 3z"/>
+          </svg>
+          카카오톡으로 공유하기
+        </button>
+
+        <!-- URL 직접 복사 -->
+        <div class="url-share-box">
+          <span id="shareUrlDisplay">신청 페이지 URL을 복사하세요</span>
+          <button class="btn-copy" id="copyBtn" onclick="copyUrl()">복사</button>
+        </div>
+
+        <div class="admin-info-box">
+          <div class="admin-title">📊 신청자 현황 확인 (관리자용)</div>
+          <p>
+            신청 데이터는 Google Sheets에 자동 저장됩니다.<br>
+            시트 연동 설정 방법은 아래 안내를 참고하세요.<br>
+            <a href="#" onclick="showAdminGuide(); return false;">▶ Google Sheets 연동 가이드 보기</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- 관리자 가이드 (숨김) -->
+      <div id="adminGuide" style="display:none; margin-top:16px;">
+        <div class="section-card" style="text-align:left;">
+          <div class="section-title"><div class="icon icon-teal">⚙️</div>Google Sheets 연동 방법</div>
+          <div style="font-size:13px; color:#B8C4D8; line-height:2;">
+            <strong style="color:#C9A227;">① Google Sheets 생성</strong><br>
+            sheets.google.com → 새 스프레드시트 생성<br><br>
+            <strong style="color:#C9A227;">② Apps Script 설정</strong><br>
+            확장 프로그램 → Apps Script → 아래 코드 붙여넣기<br><br>
+            <div style="background:#0D1A3A; border:1px solid #1E2E55; border-radius:8px; padding:12px; font-family:monospace; font-size:11px; color:#8A9BBF; word-break:break-all; line-height:1.8;">
+function doPost(e) {<br>
+&nbsp;&nbsp;const data = JSON.parse(e.postData.contents);<br>
+&nbsp;&nbsp;const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();<br>
+&nbsp;&nbsp;sheet.appendRow([data.접수번호, data.기업명, data.대표자, data.연락처, data.이메일, data.업종, data.업력, data.자금종류, data.자금규모, data.접수일시]);<br>
+&nbsp;&nbsp;return ContentService.createTextOutput('OK');<br>
+}
+            </div>
+            <br>
+            <strong style="color:#C9A227;">③ 웹앱 배포</strong><br>
+            배포 → 새 배포 → 웹 앱 → 액세스: 모든 사용자 → 배포<br><br>
+            <strong style="color:#C9A227;">④ URL 설정</strong><br>
+            이 HTML 파일의 <code style="color:#1D9E75;">SHEETS_URL</code> 변수에<br>배포된 웹앱 URL 붙여넣기
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-next" style="width:100%; margin-top:16px;" onclick="window.print()">🖨️ 접수확인서 인쇄</button>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+// ========================================
+// 🔧 설정 영역 (여기만 수정하세요)
+// ========================================
+
+// Google Sheets 웹앱 URL (Apps Script 배포 후 입력)
+const SHEETS_URL = 'https://suwon-fund-apply-production.up.railway.app/api/apply';
+
+// 카카오 JavaScript 앱 키 (카카오 개발자 콘솔에서 발급)
+const KAKAO_APP_KEY = 'YOUR_KAKAO_JAVASCRIPT_KEY_HERE';
+
+// 이 앱의 공개 URL (GitHub Pages, Netlify 등 배포 후 입력)
+const APP_URL = window.location.href.split('?')[0];
+
+// ========================================
+
+let currentPage = 1;
+const totalPages = 4;
+
+// 카카오 SDK 초기화
+try {
+  if (KAKAO_APP_KEY !== 'YOUR_KAKAO_JAVASCRIPT_KEY_HERE') {
+    Kakao.init(KAKAO_APP_KEY);
+  }
+} catch(e) {}
+
+function goPage(n) {
+  if (n > currentPage && !validatePage(currentPage)) return;
+  document.getElementById('page' + currentPage).classList.remove('active');
+  document.getElementById('page' + n).classList.add('active');
+
+  for (let i = 1; i <= totalPages; i++) {
+    const el = document.getElementById('step' + i + '-indicator');
+    el.className = 'step-item';
+    if (i < n) el.classList.add('done');
+    if (i === n) el.classList.add('active');
+    if (i < n) el.querySelector('.step-circle').textContent = '✓';
+    else el.querySelector('.step-circle').textContent = i;
+  }
+  currentPage = n;
+  window.scrollTo(0, 0);
+}
+
+function validatePage(p) {
+  if (p === 1) {
+    const c = document.getElementById('companyName').value.trim();
+    const b = document.getElementById('bizNum').value.trim();
+    const i = document.getElementById('industry').value;
+    const a = document.getElementById('bizAge').value;
+    if (!c || !b || !i || !a) {
+      alert('기업명, 사업자등록번호, 업종, 업력은 필수 입력 항목입니다.');
+      return false;
+    }
+  }
+  if (p === 2) {
+    const name = document.getElementById('ceoName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!name || !phone) {
+      alert('대표자 성명과 연락처는 필수 입력 항목입니다.');
+      return false;
+    }
+  }
+  return true;
+}
+
+function selectRadio(el, group) {
+  el.closest('.radio-group').querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('selected');
+}
+
+function toggleAgree(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('checked');
+}
+
+async function submitForm() {
+  if (!document.getElementById('agree1').classList.contains('checked') ||
+      !document.getElementById('agree2').classList.contains('checked')) {
+    alert('필수 약관에 모두 동의해 주세요.');
+    return;
+  }
+
+  // 로딩 표시
+  document.getElementById('submitBtn').style.display = 'none';
+  document.getElementById('submitLoading').style.display = 'flex';
+
+  // 데이터 수집
+  const company = document.getElementById('companyName').value || '-';
+  const ceo = document.getElementById('ceoName').value || '-';
+  const phone = document.getElementById('phone').value || '-';
+  const email = document.getElementById('email').value || '-';
+  const industry = document.getElementById('industry').value || '-';
+  const bizAge = document.getElementById('bizAge').value || '-';
+  const fundAmount = document.getElementById('fundAmount').value || '-';
+  const memo = document.getElementById('memo').value || '-';
+
+  // 선택된 자금 종류
+  const fundTypes = [];
+  document.querySelectorAll('#fundType .check-item.selected').forEach(el => {
+    fundTypes.push(el.textContent.trim());
+  });
+
+  const num = Math.floor(Math.random() * 9000) + 1000;
+  const coupon = 'NICE-2026-' + Math.random().toString(36).substring(2,6).toUpperCase();
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  const formData = {
+    receipt_num: '#2026-' + num,
+    company_name: company,
+    ceo_name: ceo,
+    phone: phone,
+    email: email,
+    industry: industry,
+    biz_age: bizAge,
+    fund_types: fundTypes.join(', ') || '-',
+    fund_amount: fundAmount,
+    memo: memo,
+    coupon_code: coupon
+  };
+
+  // Google Sheets 전송
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+  } catch(e) {
+    console.log('서버 전송 오류:', e);
+  }
+
+  // 화면 업데이트
+  document.getElementById('receiptNum').textContent = formData.receipt_num;
+  document.getElementById('couponCode').textContent = coupon;
+  document.getElementById('r-company').textContent = company;
+  document.getElementById('r-ceo').textContent = ceo;
+  document.getElementById('r-phone').textContent = phone;
+  document.getElementById('r-date').textContent = dateStr;
+  document.getElementById('shareUrlDisplay').textContent = APP_URL;
+
+  // 페이지 전환
+  document.getElementById('page4').classList.remove('active');
+  document.getElementById('page5').classList.add('active');
+
+  // 버튼 복원
+  document.getElementById('submitBtn').style.display = '';
+  document.getElementById('submitLoading').style.display = 'none';
+
+  window.scrollTo(0, 0);
+}
+
+// 카카오톡 공유
+function shareKakao() {
+  if (typeof Kakao === 'undefined' || !Kakao.isInitialized()) {
+    alert('카카오 앱 키를 설정한 후 사용 가능합니다.\n(KAKAO_APP_KEY 변수에 입력해 주세요)');
+    return;
+  }
+
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: '🏢 수원시특례지원금 중소기업 무상자금 신청',
+      description: '최대 7,000만 무상지원 | 금리 2.9% 고정 | 선착순 15명 무료 세미나\n📅 2026. 6. 9 (화) 오후 2시 | 테크트리영통 B2회의실',
+      imageUrl: 'https://rapha8884.github.io/suwon-fund-apply/og-image.png',
+      link: {
+        mobileWebUrl: APP_URL,
+        webUrl: APP_URL,
+      },
+    },
+    buttons: [
+      {
+        title: '지금 바로 신청하기',
+        link: {
+          mobileWebUrl: APP_URL,
+          webUrl: APP_URL,
+        },
+      },
+    ],
+  });
+}
+
+// URL 복사
+function copyUrl() {
+  const url = APP_URL;
+  const btn = document.getElementById('copyBtn');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => {
+      btn.textContent = '✓ 복사됨';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+    });
+  } else {
+    // 구형 브라우저 fallback
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✓ 복사됨';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  }
+}
+
+// 관리자 가이드 토글
+function showAdminGuide() {
+  const guide = document.getElementById('adminGuide');
+  guide.style.display = guide.style.display === 'none' ? 'block' : 'none';
+}
+
+// 사업자번호 자동 포맷
+document.getElementById('bizNum').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g,'');
+  if (v.length >= 4) v = v.slice(0,3) + '-' + v.slice(3);
+  if (v.length >= 7) v = v.slice(0,6) + '-' + v.slice(6);
+  this.value = v.slice(0,12);
+});
+
+// 전화번호 자동 포맷
+document.getElementById('phone').addEventListener('input', function() {
+  let v = this.value.replace(/\D/g,'');
+  if (v.length >= 4) v = v.slice(0,3) + '-' + v.slice(3);
+  if (v.length >= 9) v = v.slice(0,8) + '-' + v.slice(8);
+  this.value = v.slice(0,13);
+});
+</script>
+</body>
+</html>
