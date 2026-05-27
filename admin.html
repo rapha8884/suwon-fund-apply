@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관리자 | 수원시특례지원금</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0D1A3A; color: #fff; font-family: 'Apple SD Gothic Neo', sans-serif; min-height: 100vh; }
+
+  /* 로그인 */
+  .login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .login-box { background: #131F3F; border: 1px solid #1E2E55; border-radius: 20px; padding: 40px; width: 100%; max-width: 380px; text-align: center; }
+  .logo { font-size: 40px; margin-bottom: 16px; }
+  .login-title { font-size: 20px; font-weight: 900; color: #C9A227; margin-bottom: 6px; }
+  .login-sub { font-size: 13px; color: #8A9BBF; margin-bottom: 28px; }
+  .login-input { width: 100%; background: #0D1A3A; border: 1.5px solid #1E2E55; border-radius: 10px; color: #fff; font-size: 16px; padding: 13px 16px; outline: none; margin-bottom: 14px; font-family: inherit; }
+  .login-input:focus { border-color: #C9A227; }
+  .login-btn { width: 100%; background: #C9A227; border: none; border-radius: 12px; color: #0D1A3A; font-size: 16px; font-weight: 900; padding: 14px; cursor: pointer; font-family: inherit; }
+  .login-btn:hover { background: #E8C547; }
+  .login-err { color: #FF7777; font-size: 13px; margin-top: 10px; display: none; }
+
+  /* 관리자 */
+  .admin-wrap { display: none; }
+  .header { background: #131F3F; border-bottom: 2px solid #C9A227; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .header h1 { font-size: 18px; font-weight: 900; color: #C9A227; }
+  .header p { font-size: 12px; color: #8A9BBF; }
+  .badge { background: #C9A227; color: #0D1A3A; border-radius: 20px; padding: 4px 12px; font-size: 13px; font-weight: 900; }
+  .stat-bar { display: flex; gap: 12px; padding: 16px 20px; flex-wrap: wrap; }
+  .stat { background: #131F3F; border: 1px solid #1E2E55; border-radius: 12px; padding: 14px 20px; text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 900; color: #C9A227; }
+  .stat-label { font-size: 11px; color: #8A9BBF; margin-top: 2px; }
+  .toolbar { padding: 0 20px 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn { padding: 9px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; font-family: inherit; }
+  .btn-gold { background: #C9A227; color: #0D1A3A; }
+  .btn-outline { background: transparent; border: 1.5px solid #1E2E55; color: #8A9BBF; }
+  .table-wrap { padding: 0 20px 40px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 800px; }
+  th { background: #1E2E55; color: #C9A227; padding: 11px 10px; text-align: left; font-weight: 700; white-space: nowrap; }
+  td { padding: 10px 10px; border-bottom: 1px solid #1E2E5550; color: #B8C4D8; white-space: nowrap; }
+  tr:hover td { background: #1E2E5530; }
+  .empty { text-align: center; padding: 60px; color: #8A9BBF; font-size: 15px; }
+  .loading { text-align: center; padding: 40px; color: #C9A227; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<!-- 로그인 화면 -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="logo">🏢</div>
+    <div class="login-title">수원시특례지원금</div>
+    <div class="login-sub">관리자 전용 페이지</div>
+    <input type="password" class="login-input" id="pwInput" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')doLogin()" />
+    <button class="login-btn" onclick="doLogin()">로그인</button>
+    <div class="login-err" id="loginErr">비밀번호가 틀렸습니다</div>
+  </div>
+</div>
+
+<!-- 관리자 화면 -->
+<div class="admin-wrap" id="adminWrap">
+  <div class="header">
+    <div>
+      <h1>🏢 수원시특례지원금 관리자</h1>
+      <p>신청자 현황 대시보드</p>
+    </div>
+    <span class="badge" id="totalBadge">총 0명</span>
+  </div>
+  <div class="stat-bar">
+    <div class="stat"><div class="stat-num" id="statTotal">0</div><div class="stat-label">총 신청자</div></div>
+    <div class="stat"><div class="stat-num" id="statLeft">20</div><div class="stat-label">잔여 자리</div></div>
+    <div class="stat"><div class="stat-num" id="statDate">-</div><div class="stat-label">최근 신청일</div></div>
+  </div>
+  <div class="toolbar">
+    <button class="btn btn-gold" onclick="downloadCSV()">📥 엑셀 다운로드</button>
+    <button class="btn btn-outline" onclick="loadData()">🔄 새로고침</button>
+    <button class="btn btn-outline" onclick="logout()">🚪 로그아웃</button>
+  </div>
+  <div class="table-wrap">
+    <div class="loading" id="loadingMsg">데이터 불러오는 중...</div>
+    <table id="dataTable" style="display:none">
+      <thead>
+        <tr><th>#</th><th>삭제</th><th>접수번호</th><th>기업명</th><th>대표자</th><th>연락처</th><th>이메일</th><th>업종</th><th>자금종류</th><th>자금규모</th><th>신청일시</th></tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div class="empty" id="emptyMsg" style="display:none">📭 아직 신청자가 없습니다</div>
+  </div>
+</div>
+
+<script>
+const SERVER = 'https://suwon-fund-apply-production.up.railway.app';
+const CORRECT_PW = 'qwe140511';
+let allData = [];
+
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === CORRECT_PW) {
+    document.getElementById('loginWrap').style.display = 'none';
+    document.getElementById('adminWrap').style.display = 'block';
+    loadData();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+
+async function loadData() {
+  document.getElementById('loadingMsg').style.display = 'block';
+  document.getElementById('dataTable').style.display = 'none';
+  document.getElementById('emptyMsg').style.display = 'none';
+
+  try {
+    const res = await fetch(SERVER + '/api/list');
+    const data = await res.json();
+    allData = data.rows || [];
+    renderTable(allData);
+  } catch(e) {
+    document.getElementById('loadingMsg').textContent = '❌ 서버 연결 오류. 잠시 후 다시 시도해주세요.';
+  }
+}
+
+function renderTable(rows) {
+  const total = rows.length;
+  document.getElementById('totalBadge').textContent = '총 ' + total + '명 신청';
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statLeft').textContent = Math.max(0, 20 - total);
+  document.getElementById('statDate').textContent = total > 0 ? new Date(rows[0].submitted_at).toLocaleDateString('ko-KR') : '-';
+
+  document.getElementById('loadingMsg').style.display = 'none';
+
+  if (total === 0) {
+    document.getElementById('emptyMsg').style.display = 'block';
+    return;
+  }
+
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = rows.map((r, i) => `
+    <tr>
+      <td></td>
+      <td><button onclick="deleteRow(${r.id})" style="background:#7A1515;border:none;border-radius:6px;color:#FFB3B3;padding:4px 10px;cursor:pointer;font-size:12px;font-weight:700;">삭제</button></td>
+      <td>${r.receipt_num||'-'}</td>
+      <td><strong>${r.company_name||'-'}</strong></td>
+      <td>${r.ceo_name||'-'}</td>
+      <td>${r.phone||'-'}</td>
+      <td>${r.email||'-'}</td>
+      <td>${r.industry||'-'}</td>
+      <td>${r.fund_types||'-'}</td>
+      <td>${r.fund_amount||'-'}</td>
+      <td>${r.submitted_at ? new Date(r.submitted_at).toLocaleString('ko-KR') : '-'}</td>
+    </tr>
+  `).join('');
+  document.getElementById('dataTable').style.display = 'table';
+}
+
+function downloadCSV() {
+  if (allData.length === 0) { alert('다운로드할 데이터가 없습니다'); return; }
+  const headers = ['번호','접수번호','기업명','대표자','연락처','이메일','업종','자금종류','자금규모','신청일시'];
+  const rows = allData.map((r,i) => [
+    i+1, r.receipt_num, r.company_name, r.ceo_name, r.phone, r.email,
+    r.industry, r.fund_types, r.fund_amount,
+    r.submitted_at ? new Date(r.submitted_at).toLocaleString('ko-KR') : ''
+  ].map(v => '"' + String(v||'').replace(/"/g,'""') + '"').join(','));
+  const csv = '\uFEFF' + headers.join(',') + '\n' + rows.join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv;charset=utf-8'}));
+  a.download = 'suwon_applications.csv';
+  a.click();
+}
+
+function deleteRow(id) {
+  if (!confirm('이 신청자를 삭제할까요?')) return;
+  fetch('https://suwon-fund-apply-production.up.railway.app/api/delete/' + id, { method: 'DELETE' })
+    .then(() => loadData())
+    .catch(() => alert('삭제 실패'));
+}
+
+function logout() {
+  document.getElementById('loginWrap').style.display = 'flex';
+  document.getElementById('adminWrap').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+}
+</script>
+</body>
+</html>
